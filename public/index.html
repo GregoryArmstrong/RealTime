@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ask the Audience</title>
+  </head>
+  <body>
+    <h1>Hello, World!</h1>
+    <div id='connection-count'></div>
+    <div id='status-message'></div>
+    <div id='choices'>
+      <button>A</button>
+      <button>B</button>
+      <button>C</button>
+      <button>D</button>
+    </div>
+    <div id='vote-tallies-header'>Vote Tallies:</div>
+    <div id="vote-tallies-A"></div>
+    <div id="vote-tallies-B"></div>
+    <div id="vote-tallies-C"></div>
+    <div id="vote-tallies-D"></div>
+    <div id='vote-tallies-current-header'>Your Vote:</div>
+    <div id="vote-tallies-current"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client.js"></script>
+  </body>
+</html>

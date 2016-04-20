@@ -1,0 +1,36 @@
+{
+  "name": "realtime",
+  "version": "1.0.0",
+  "description": "Realtime polling!",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GregoryArmstrong/RealTime.git"
+  },
+  "keywords": [
+    "node",
+    "react"
+  ],
+  "author": "Gregory Armstrong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GregoryArmstrong/RealTime/issues"
+  },
+  "homepage": "https://github.com/GregoryArmstrong/RealTime#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "jade": "^1.11.0",
+    "pug": "^2.0.0-alpha6",
+    "socket.io": "^1.4.5"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "request": "^2.72.0",
+    "supertest": "^1.2.0"
+  }
+}
