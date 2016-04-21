@@ -53,7 +53,6 @@ io.on('connection', function (socket){
       var currentPoll = app.locals.polls[message.pollName];
       currentPoll.userVotes[socket.id] = message.vote;
 
-      // userVotes[socket.id] = message;
       io.sockets.emit('voteCount', countVotes(currentPoll.voteTally, currentPoll.userVotes));
     }
 

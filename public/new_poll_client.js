@@ -11,10 +11,6 @@ if (submitPollButton) {
                                         pollChoiceFour: grabValue('poll-option-4')
                                       },
                        };
-  // var newPollOptions = [grabValue('poll-option-1'),
-  //                       grabValue('poll-option-2'),
-  //                       grabValue('poll-option-3'),
-  //                       grabValue('poll-option-4')];
 
   submitPollButton.addEventListener('click', function(event) {
     event.preventDefault;
@@ -30,7 +26,6 @@ socket.on('newPoll', function (newPoll) {
   adminPollView.innerHTML = '<a href= "/poll/admin/' + newPoll.pollName + '">' + newPoll.pollName + '</a>';
   clientPollView.innerHTML = '<a href= "/poll/' + newPoll.pollName + '">' + newPoll.pollName + '</a>';
 });
-
 
 function grabValue(id) {
   return document.getElementById(id).value;
