@@ -9,13 +9,17 @@ const server = http.createServer(app)
                  });
 const io = socketIo(server);
 const bodyParser = require('body-parser');
+const Poll = require('./public/poll.js');
 
 var votes = {};
+var userVotes = {};
+app.locals.polls = {};
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 3000);
+app.set('view engine', 'jade');
 
 app.get('/', function (request, response) {
   response.sendFile(__dirname + '/public/index.html');
@@ -23,6 +27,18 @@ app.get('/', function (request, response) {
 
 app.get('/new_poll', function (request, response) {
   response.sendFile(__dirname + '/public/new_poll.html');
+});
+
+app.get('/poll/:id', function (request, response) {
+  var currentPoll = app.locals.polls[request.params.id];
+
+  response.render('vote', { votes: currentPoll.voteTally, title: "Vote" });
+});
+
+app.get('/poll/admin/:id', function (request, response) {
+  var poll = app.locals.polls[request.params.id];
+
+  response.sendFile(__dirname + '/public/admin_poll.html');
 });
 
 io.on('connection', function (socket){
@@ -34,38 +50,47 @@ io.on('connection', function (socket){
 
   socket.on('message', function (channel, message) {
     if (channel === 'voteCast') {
-      votes[socket.id] = message;
-      socket.emit('voteCount', countVotes(votes));
+      var currentPoll = app.locals.polls[message.pollName];
+      currentPoll.userVotes[socket.id] = message.vote;
+
+      // userVotes[socket.id] = message;
+      io.sockets.emit('voteCount', countVotes(currentPoll.voteTally, currentPoll.userVotes));
     }
 
     if (channel === 'newPollOptions') {
-      votes = {};
-      message.forEach( (poll) => {
-        votes[poll] = 0;
-      });
-      console.log(votes);
+      var newPoll = new Poll(message);
+
+      app.locals.polls[newPoll.pollName] = newPoll;
+      console.log(app.locals.polls);
+      io.sockets.emit('newPoll', newPoll);
+    }
+
+    if (channel === 'pollClose') {
+      var currentPoll = app.locals.polls[message.pollName];
+
+      currentPoll.active = false;
+      io.sockets.emit('pollClosed', currentPoll);
     }
   });
 
   socket.on('disconnect', function () {
     console.log('A user has disconnected.', io.engine.clientsCount);
-    delete votes[socket.id];
-    socket.emit('voteCount', countVotes(votes));
     io.sockets.emit('usersConnection', io.engine.clientsCount);
   });
 });
 
-function countVotes(votes) {
-  var voteCount = {
-    A: 0,
-    B: 0,
-    C: 0,
-    D: 0
-  };
+function countVotes(voteTally, userVotes) {
+  var voteCount = {};
+  var keys = Object.keys(voteTally);
 
-  for (var vote in votes) {
-    voteCount[votes[vote]]++;
+  keys.forEach( (key) => {
+    voteCount[key] = 0;
+  });
+
+  for (var vote in userVotes) {
+    voteCount[userVotes[vote]]++;
   }
+
   return voteCount;
 }
 
