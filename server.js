@@ -61,6 +61,7 @@ io.on('connection', function (socket){
 
       app.locals.polls[newPoll.pollName] = newPoll;
       console.log(app.locals.polls);
+      setPollClose(newPoll);
       io.sockets.emit('newPoll', newPoll);
     }
 
@@ -77,6 +78,13 @@ io.on('connection', function (socket){
     io.sockets.emit('usersConnection', io.engine.clientsCount);
   });
 });
+
+function setPollClose(poll) {
+  setTimeout(function() {
+    poll.active = false;
+    io.sockets.emit('pollClosed', poll);
+  }, poll.duration);
+}
 
 function countVotes(voteTally, userVotes) {
   var voteCount = {};

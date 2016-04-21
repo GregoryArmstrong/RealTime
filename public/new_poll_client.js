@@ -10,6 +10,7 @@ if (submitPollButton) {
                                         pollChoiceThree: grabValue('poll-option-3'),
                                         pollChoiceFour: grabValue('poll-option-4')
                                       },
+                         pollDuration: grabValue('poll-option-timer'),
                        };
 
   submitPollButton.addEventListener('click', function(event) {
@@ -19,7 +20,6 @@ if (submitPollButton) {
 }
 
 socket.on('newPoll', function (newPoll) {
-  console.log('hey there!');
   var adminPollView = document.getElementById('admin-poll-view');
   var clientPollView = document.getElementById('client-poll-view');
 

@@ -25,10 +25,12 @@ for (var i = 0; i < buttons.length; i++) {
 
 socket.on('pollClosed', function () {
   var buttons = document.querySelectorAll('#choices button');
+  var pollActive = document.getElementById('poll-active');
 
   for (var i = 0; i < buttons.length; i++) {
     buttons[i].disabled = true;
   }
+  pollActive.innerText = 'Inactive';
 });
 
 socket.on('voteCount', function (votes) {

@@ -4,6 +4,11 @@ function Poll (options) {
   this.userVotes        = {};
   this.voteTally        = createTally(this.pollChoices);
   this.active           = true;
+  this.duration         = convertDuration(options.pollDuration) || 600000;
+}
+
+function convertDuration(duration) {
+  return (duration * 60 * 1000);
 }
 
 function createTally(pollChoices) {
