@@ -21,6 +21,10 @@ app.get('/', function (request, response) {
   response.sendFile(__dirname + '/public/index.html');
 });
 
+app.get('/new_poll', function (request, response) {
+  response.sendFile(__dirname + '/public/new_poll.html');
+});
+
 io.on('connection', function (socket){
   console.log('A user has connected.', io.engine.clientsCount);
 
@@ -32,6 +36,14 @@ io.on('connection', function (socket){
     if (channel === 'voteCast') {
       votes[socket.id] = message;
       socket.emit('voteCount', countVotes(votes));
+    }
+
+    if (channel === 'newPollOptions') {
+      votes = {};
+      message.forEach( (poll) => {
+        votes[poll] = 0;
+      });
+      console.log(votes);
     }
   });
 

@@ -29,8 +29,8 @@ socket.on('voteCount', function (votes) {
   var cTally = document.getElementById('vote-tallies-C');
   var dTally = document.getElementById('vote-tallies-D');
 
-  aTally.innerText = "A: " + votes['A'];
-  bTally.innerText = "B: " + votes['B'];
-  cTally.innerText = "C: " + votes['C'];
-  dTally.innerText = "D: " + votes['D'];
+  aTally.innerText = "A: " + votes.A;
+  bTally.innerText = "B: " + votes.B;
+  cTally.innerText = "C: " + votes.C;
+  dTally.innerText = "D: " + votes.D;
 });
