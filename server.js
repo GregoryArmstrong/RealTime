@@ -13,7 +13,6 @@ const Poll = require('./public/poll.js');
 
 var votes = {};
 var userVotes = {};
-// var polls = {};
 app.locals.polls = {};
 
 app.use(express.static('public'));
@@ -31,7 +30,6 @@ app.get('/new_poll', function (request, response) {
 });
 
 app.get('/vote', function (request, response) {
-  // response.render('vote', { votes: votes, title: "Vote" });
   var currentPoll = app.locals.polls['test'];
 
   response.render('vote', { votes: currentPoll.voteTally, title: "Vote" });
@@ -40,7 +38,7 @@ app.get('/vote', function (request, response) {
 app.get('/poll', function (request, response) {
   // var poll = app.locals.polls[request.params.id];
 
-  response.render('admin_poll', { votes: votes, userVotes: userVotes, title: "Admin Poll View" });
+  response.sendFile(__dirname + '/public/admin_poll.html');
 });
 
 io.on('connection', function (socket){
@@ -64,11 +62,13 @@ io.on('connection', function (socket){
 
       app.locals.polls[newPoll.pollName] = newPoll;
       console.log(app.locals.polls);
-      // votes = {};
-      // message.forEach( (poll) => {
-      //   votes[poll] = 0;
-      // });
-      // console.log(votes);
+    }
+
+    if (channel === 'pollClose') {
+      var currentPoll = app.locals.polls[message.pollName];
+
+      currentPoll.active = false;
+      io.sockets.emit('pollClosed', currentPoll);
     }
   });
 

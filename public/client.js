@@ -23,6 +23,14 @@ for (var i = 0; i < buttons.length; i++) {
   });
 }
 
+socket.on('pollClosed', function () {
+  var buttons = document.querySelectorAll('#choices button');
+
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].disabled = true;
+  }
+});
+
 socket.on('voteCount', function (votes) {
   var votesArray = Object.keys(votes);
   var aTally = document.getElementById('vote-tallies-1');
@@ -34,4 +42,9 @@ socket.on('voteCount', function (votes) {
   bTally.innerText = votesArray[1] + ": " + votes[votesArray[1]];
   cTally.innerText = votesArray[2] + ": " + votes[votesArray[2]];
   dTally.innerText = votesArray[3] + ": " + votes[votesArray[3]];
+});
+
+var closePollButton = document.getElementById('close-poll');
+closePollButton.addEventListener('click', function () {
+  socket.send('pollClose', { pollName: 'test' });
 });

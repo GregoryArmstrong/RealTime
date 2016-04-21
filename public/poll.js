@@ -1,8 +1,9 @@
 function Poll (options) {
-  this.pollName         = options.pollName        || "Poll";
+  this.pollName         = options.pollName || "Poll";
   this.pollChoices      = options.pollChoices;
   this.userVotes        = {};
   this.voteTally        = createTally(this.pollChoices);
+  this.active           = true;
 }
 
 function createTally(pollChoices) {
