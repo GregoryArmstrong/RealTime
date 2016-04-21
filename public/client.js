@@ -46,5 +46,7 @@ socket.on('voteCount', function (votes) {
 
 var closePollButton = document.getElementById('close-poll');
 closePollButton.addEventListener('click', function () {
-  socket.send('pollClose', { pollName: 'test' });
+  var pollInfo = { pollName: 'test'};
+
+  socket.send('pollClose', pollInfo);
 });

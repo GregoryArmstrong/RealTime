@@ -22,6 +22,16 @@ if (submitPollButton) {
   });
 }
 
+socket.on('newPoll', function (newPoll) {
+  console.log('hey there!');
+  var adminPollView = document.getElementById('admin-poll-view');
+  var clientPollView = document.getElementById('client-poll-view');
+
+  adminPollView.innerHTML = '<a href= "/poll/admin/' + newPoll.pollName + '">' + newPoll.pollName + '</a>';
+  clientPollView.innerHTML = '<a href= "/poll/' + newPoll.pollName + '">' + newPoll.pollName + '</a>';
+});
+
+
 function grabValue(id) {
   return document.getElementById(id).value;
 }

@@ -29,14 +29,14 @@ app.get('/new_poll', function (request, response) {
   response.sendFile(__dirname + '/public/new_poll.html');
 });
 
-app.get('/vote', function (request, response) {
-  var currentPoll = app.locals.polls['test'];
+app.get('/poll/:id', function (request, response) {
+  var currentPoll = app.locals.polls[request.params.id];
 
   response.render('vote', { votes: currentPoll.voteTally, title: "Vote" });
 });
 
-app.get('/poll', function (request, response) {
-  // var poll = app.locals.polls[request.params.id];
+app.get('/poll/admin/:id', function (request, response) {
+  var poll = app.locals.polls[request.params.id];
 
   response.sendFile(__dirname + '/public/admin_poll.html');
 });
@@ -62,6 +62,7 @@ io.on('connection', function (socket){
 
       app.locals.polls[newPoll.pollName] = newPoll;
       console.log(app.locals.polls);
+      io.sockets.emit('newPoll', newPoll);
     }
 
     if (channel === 'pollClose') {
