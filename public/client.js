@@ -16,7 +16,7 @@ var buttons = document.querySelectorAll('#choices button');
 
 for (var i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener('click', function () {
-    socket.send('voteCast', this.innerText);
+    socket.send('voteCast', { pollName: 'test', vote: this.innerText});
     var currentVote = document.getElementById('vote-tallies-current');
 
     currentVote.innerText = this.innerText;
