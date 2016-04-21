@@ -24,13 +24,14 @@ for (var i = 0; i < buttons.length; i++) {
 }
 
 socket.on('voteCount', function (votes) {
-  var aTally = document.getElementById('vote-tallies-A');
-  var bTally = document.getElementById('vote-tallies-B');
-  var cTally = document.getElementById('vote-tallies-C');
-  var dTally = document.getElementById('vote-tallies-D');
+  var votesArray = Object.keys(votes);
+  var aTally = document.getElementById('vote-tallies-1');
+  var bTally = document.getElementById('vote-tallies-2');
+  var cTally = document.getElementById('vote-tallies-3');
+  var dTally = document.getElementById('vote-tallies-4');
 
-  aTally.innerText = "A: " + votes.A;
-  bTally.innerText = "B: " + votes.B;
-  cTally.innerText = "C: " + votes.C;
-  dTally.innerText = "D: " + votes.D;
+  aTally.innerText = votesArray[0] + ": " + votes[votesArray[0]];
+  bTally.innerText = votesArray[1] + ": " + votes[votesArray[1]];
+  cTally.innerText = votesArray[2] + ": " + votes[votesArray[2]];
+  dTally.innerText = votesArray[3] + ": " + votes[votesArray[3]];
 });

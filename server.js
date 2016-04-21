@@ -11,11 +11,13 @@ const io = socketIo(server);
 const bodyParser = require('body-parser');
 
 var votes = {};
+var userVotes = {};
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 3000);
+app.set('view engine', 'jade');
 
 app.get('/', function (request, response) {
   response.sendFile(__dirname + '/public/index.html');
@@ -24,6 +26,10 @@ app.get('/', function (request, response) {
 app.get('/new_poll', function (request, response) {
   response.sendFile(__dirname + '/public/new_poll.html');
 });
+
+app.get('/vote', function (request, response) {
+  response.render('vote', { votes: votes, title: "Vote" })
+})
 
 io.on('connection', function (socket){
   console.log('A user has connected.', io.engine.clientsCount);
@@ -34,8 +40,8 @@ io.on('connection', function (socket){
 
   socket.on('message', function (channel, message) {
     if (channel === 'voteCast') {
-      votes[socket.id] = message;
-      socket.emit('voteCount', countVotes(votes));
+      userVotes[socket.id] = message;
+      socket.emit('voteCount', countVotes(votes, userVotes));
     }
 
     if (channel === 'newPollOptions') {
@@ -49,23 +55,24 @@ io.on('connection', function (socket){
 
   socket.on('disconnect', function () {
     console.log('A user has disconnected.', io.engine.clientsCount);
-    delete votes[socket.id];
-    socket.emit('voteCount', countVotes(votes));
+    delete userVotes[socket.id];
+    socket.emit('voteCount', countVotes(votes, userVotes));
     io.sockets.emit('usersConnection', io.engine.clientsCount);
   });
 });
 
-function countVotes(votes) {
-  var voteCount = {
-    A: 0,
-    B: 0,
-    C: 0,
-    D: 0
-  };
+function countVotes(votes, userVotes) {
+  var voteCount = {};
+  var keys = Object.keys(votes);
 
-  for (var vote in votes) {
-    voteCount[votes[vote]]++;
+  keys.forEach( (key) => {
+    voteCount[key] = 0;
+  });
+
+  for (var vote in userVotes) {
+    voteCount[userVotes[vote]]++;
   }
+
   return voteCount;
 }
 
