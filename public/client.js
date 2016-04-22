@@ -52,7 +52,10 @@ socket.on('voteCount', function (votes) {
 
 var closePollButton = document.getElementById('close-poll');
 closePollButton.addEventListener('click', function () {
-  var pollInfo = { pollName: 'test'};
+  // var pollInfo = { pollName: 'test'};
+  var pollName = document.querySelector('h2').innerText;
+
+  var pollInfo = { pollName: pollName }
 
   socket.send('pollClose', pollInfo);
 });
