@@ -23,8 +23,8 @@ socket.on('newPoll', function (newPoll) {
   var adminPollView = document.getElementById('admin-poll-view');
   var clientPollView = document.getElementById('client-poll-view');
 
-  adminPollView.innerHTML = '<a href= "/poll/admin/' + newPoll.pollName + '">' + newPoll.pollName + '</a>';
-  clientPollView.innerHTML = '<a href= "/poll/' + newPoll.pollName + '">' + newPoll.pollName + '</a>';
+  adminPollView.innerHTML = '<a href= "/poll/admin/' + newPoll.pollName + '">Admin View</a>';
+  clientPollView.innerHTML = '<a href= "/poll/' + newPoll.pollName + '">Client View</a>';
 });
 
 function grabValue(id) {

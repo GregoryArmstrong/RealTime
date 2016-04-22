@@ -32,7 +32,7 @@ app.get('/new_poll', function (request, response) {
 app.get('/poll/:id', function (request, response) {
   var currentPoll = app.locals.polls[request.params.id];
 
-  response.render('vote', { votes: currentPoll.voteTally, title: "Vote" });
+  response.render('vote', { votes: currentPoll.voteTally, title: request.params.id });
 });
 
 app.get('/poll/admin/:id', function (request, response) {
