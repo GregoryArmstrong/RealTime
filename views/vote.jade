@@ -2,9 +2,13 @@ doctype html
 html(lang="en")
   head
     title= title
+    link(href='/style.css', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css?family=Raleway:400,600', rel='stylesheet', type='text/css')
   body
     #title
       h1= title
+
+    a(href='/') HomePage
 
     #connection-count
     #status-message
@@ -12,15 +16,13 @@ html(lang="en")
       each key, value in votes
         button.
           #{value}
-    #vote-tallies-header
-      Vote Tallies:
+    #vote-tallies-header Vote Tallies:
     #vote-tallies-1
     #vote-tallies-2
     #vote-tallies-3
     #vote-tallies-4
 
-    #vote-tallies-current-header
-      Your Vote:
+    #vote-tallies-current-header Your Vote:
     #vote-tallies-current
 
     script(src='/socket.io/socket.io.js')

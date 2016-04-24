@@ -39,7 +39,7 @@ app.get('/poll/admin/:id', function (request, response) {
   var poll = app.locals.polls[request.params.id];
 
   // response.sendFile(__dirname + '/public/admin_poll.html');
-  response.render('admin_poll', { pollName: poll.pollName });
+  response.render('admin_poll', { pollName: poll.pollName, activePoll: poll.active });
 });
 
 io.on('connection', function (socket){
