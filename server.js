@@ -32,13 +32,14 @@ app.get('/new_poll', function (request, response) {
 app.get('/poll/:id', function (request, response) {
   var currentPoll = app.locals.polls[request.params.id];
 
-  response.render('vote', { votes: currentPoll.voteTally, title: "Vote" });
+  response.render('vote', { votes: currentPoll.voteTally, title: request.params.id });
 });
 
 app.get('/poll/admin/:id', function (request, response) {
   var poll = app.locals.polls[request.params.id];
 
-  response.sendFile(__dirname + '/public/admin_poll.html');
+  // response.sendFile(__dirname + '/public/admin_poll.html');
+  response.render('admin_poll', { pollName: poll.pollName });
 });
 
 io.on('connection', function (socket){
@@ -53,7 +54,6 @@ io.on('connection', function (socket){
       var currentPoll = app.locals.polls[message.pollName];
       currentPoll.userVotes[socket.id] = message.vote;
 
-      // userVotes[socket.id] = message;
       io.sockets.emit('voteCount', countVotes(currentPoll.voteTally, currentPoll.userVotes));
     }
 
@@ -62,6 +62,7 @@ io.on('connection', function (socket){
 
       app.locals.polls[newPoll.pollName] = newPoll;
       console.log(app.locals.polls);
+      setPollClose(newPoll);
       io.sockets.emit('newPoll', newPoll);
     }
 
@@ -78,6 +79,13 @@ io.on('connection', function (socket){
     io.sockets.emit('usersConnection', io.engine.clientsCount);
   });
 });
+
+function setPollClose(poll) {
+  setTimeout(function() {
+    poll.active = false;
+    io.sockets.emit('pollClosed', poll);
+  }, poll.duration);
+}
 
 function countVotes(voteTally, userVotes) {
   var voteCount = {};

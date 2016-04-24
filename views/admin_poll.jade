@@ -1,19 +1,23 @@
 doctype html
 html(lang="en")
   head
-    title= title
+    title= pollName
   body
-    h1= title
+    h1 Poll Admin
+    h2= pollName
 
+    h3 Poll Status:
+    #poll-active Active
     #connection-count
     #status-message
 
-    #vote-tallies-header
-      Vote Tallies:
+    #vote-tallies-header Vote Tallies:
     #vote-tallies-1
     #vote-tallies-2
     #vote-tallies-3
     #vote-tallies-4
+
+    button(id='close-poll') Close Poll
 
     script(src="/socket.io/socket.io.js")
     script(src="/client.js")
