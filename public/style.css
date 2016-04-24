@@ -1,0 +1,72 @@
+/*font-family: 'Raleway', sans-serif;*/
+
+body  {
+  background-color: #1B242B;
+  color: white;
+  font-family: 'Raleway';
+}
+
+h1  {
+  color: #BEAD93;
+  font-size: 75px;
+  margin: 20px;
+  text-align: center;
+}
+
+h2  {
+  color: #DFD0BB;
+  font-size: 40px;
+  margin: 20px;
+}
+
+h3  {
+  color: #DFD0BB;
+  font-size: 30px;
+  margin: 20px;
+}
+
+input {
+  margin: 20px;
+  padding: 10px;
+  width: 20vw;
+  box-sizing: border-box;
+  position: relative;
+  left: 100px;
+}
+
+input:focus {
+  border: solid 4px #74A2BA;
+}
+
+button  {
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  width: 20vw;
+  height: 10vh;
+  margin: 20px;
+  position: relative;
+  left: 100px;
+}
+
+button:active {
+  background-color: #74A2BA;
+}
+
+button:disabled {
+  background-color: #4B6878;
+}
+
+a  {
+  color: #DFD0BB;
+  font-size: 30px;
+  margin: 20px;
+}
+
+div {
+  margin: 20px;
+}
+
+.poll-view {
+  margin: 20px;
+}

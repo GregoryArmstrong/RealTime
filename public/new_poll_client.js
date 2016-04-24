@@ -3,17 +3,17 @@ var socket = io();
 var submitPollButton = document.getElementById('poll-option-submit');
 
 if (submitPollButton) {
-  var newPollOptions = { pollName: grabValue('poll-name'),
-                         pollChoices: {
-                                        pollChoiceOne: grabValue('poll-option-1'),
-                                        pollChoiceTwo: grabValue('poll-option-2'),
-                                        pollChoiceThree: grabValue('poll-option-3'),
-                                        pollChoiceFour: grabValue('poll-option-4')
-                                      },
-                         pollDuration: grabValue('poll-option-timer'),
-                       };
-
   submitPollButton.addEventListener('click', function(event) {
+    var newPollOptions = { pollName: grabValue('poll-name'),
+                           pollChoices: {
+                                          pollChoiceOne: grabValue('poll-option-1'),
+                                          pollChoiceTwo: grabValue('poll-option-2'),
+                                          pollChoiceThree: grabValue('poll-option-3'),
+                                          pollChoiceFour: grabValue('poll-option-4')
+                                        },
+                           pollDuration: grabValue('poll-option-timer'),
+                         };
+
     event.preventDefault;
     socket.send('newPollOptions', newPollOptions);
   });
