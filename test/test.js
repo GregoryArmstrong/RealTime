@@ -2,6 +2,8 @@ var expect = require('chai').expect;
 var assert = require('assert');
 var request = require('request');
 var app = require('../server');
+var io = require('socket.io-client');
+var should = require('chai').should();
 
 describe('Server', function(){
   before(function(done){
@@ -10,10 +12,10 @@ describe('Server', function(){
       if (error) { return done(error); }
       done();
     });
-
     this.request = request.defaults({
       baseUrl: 'http://localhost:3000'
     });
+
   });
 
   after(function(){
@@ -69,5 +71,58 @@ describe('Server', function(){
         done();
       });
     });
+  });
+
+  describe('websockets', function() {
+    var server,
+      options = {
+        transports: ['websocket'],
+        'force new connection': true
+      };
+
+    beforeEach(function(done) {
+      server = require('../server');
+      done();
+    });
+
+    it('sends "statusMessage" upon receiving a connection', function() {
+      var client = io.connect("http://localhost:3000", options);
+
+      client.on('connection', function(message){
+        message.should.equal('You have connected.');
+        done();
+      });
+
+      client.on('userConnection', function(message){
+        message.should.equal(1);
+        done();
+      });
+
+      client.disconnect();
+    });
+    // 
+    // it('sends a "usersConnection" upon disconnecting a client', function() {
+    //   var client = io.connect("http://localhost:3000", options);
+    //
+    //   client.on('disconnect', function(message){
+    //     message.should.equal(0);
+    //     done();
+    //   });
+    //
+    //   client.disconnect();
+    // });
+
+    // it('sends "voteCount" upon receiving a vote', function() {
+    //   var client = io.connect("http://localhost:3000", options);
+    //
+    //   client.emit('voteCast', { pollName: 'test', vote: 'test as well'});
+    //
+    //   client.on('voteCount', function(message){
+    //     message.should.equal('fuck nuts');
+    //     done();
+    //   });
+    //
+    //   client.disconnect();
+    // });
   });
 });

@@ -111,4 +111,4 @@ function countVotes(voteTally, userVotes) {
   return voteCount;
 }
 
-module.exports = server;
+module.exports = app;
