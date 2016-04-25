@@ -7,7 +7,7 @@ var should = require('chai').should();
 
 describe('Server', function(){
   before(function(done){
-    this.port = 3000;
+    this.port = 8000;
     this.server = app.listen(this.port, function(error, result) {
       if (error) { return done(error); }
       done();
@@ -100,29 +100,5 @@ describe('Server', function(){
 
       client.disconnect();
     });
-    // 
-    // it('sends a "usersConnection" upon disconnecting a client', function() {
-    //   var client = io.connect("http://localhost:3000", options);
-    //
-    //   client.on('disconnect', function(message){
-    //     message.should.equal(0);
-    //     done();
-    //   });
-    //
-    //   client.disconnect();
-    // });
-
-    // it('sends "voteCount" upon receiving a vote', function() {
-    //   var client = io.connect("http://localhost:3000", options);
-    //
-    //   client.emit('voteCast', { pollName: 'test', vote: 'test as well'});
-    //
-    //   client.on('voteCount', function(message){
-    //     message.should.equal('fuck nuts');
-    //     done();
-    //   });
-    //
-    //   client.disconnect();
-    // });
   });
 });
