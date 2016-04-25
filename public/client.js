@@ -25,16 +25,19 @@ for (var i = 0; i < buttons.length; i++) {
   });
 }
 
-socket.on('pollClosed', function () {
+socket.on('pollClosed', function (currentPoll) {
   var buttons = document.querySelectorAll('#choices button');
   var pollActive = document.getElementById('poll-active');
   var closePollButton = document.getElementById('close-poll');
+  var pollName = document.querySelector('h1').innerText;
 
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].disabled = true;
+  if (currentPoll.pollName === pollName) {
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = true;
+    }
+    pollActive.innerText = 'Closed';
+    closePollButton.disabled = true;
   }
-  pollActive.innerText = 'Closed';
-  closePollButton.disabled = true;
 });
 
 socket.on('voteCount', function (votes) {
