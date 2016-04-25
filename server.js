@@ -32,14 +32,23 @@ app.get('/new_poll', function (request, response) {
 app.get('/poll/:id', function (request, response) {
   var currentPoll = app.locals.polls[request.params.id];
 
-  response.render('vote', { votes: currentPoll.voteTally, title: request.params.id });
+  if (!currentPoll) {
+    response.status(404).send('Poll not found.');
+  }
+  if (currentPoll) {
+    response.render('vote', { votes: currentPoll.voteTally, title: request.params.id });
+  }
 });
 
 app.get('/poll/admin/:id', function (request, response) {
   var poll = app.locals.polls[request.params.id];
 
-  // response.sendFile(__dirname + '/public/admin_poll.html');
-  response.render('admin_poll', { pollName: poll.pollName, activePoll: poll.active });
+  if (!poll) {
+    response.status(404).send('Admin Poll not found.');
+  }
+  if (poll) {
+    response.render('admin_poll', { pollName: poll.pollName, activePoll: poll.active });
+  }
 });
 
 io.on('connection', function (socket){
@@ -102,4 +111,4 @@ function countVotes(voteTally, userVotes) {
   return voteCount;
 }
 
-module.exports = server;
+module.exports = app;
