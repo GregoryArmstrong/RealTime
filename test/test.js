@@ -64,7 +64,7 @@ describe('Server', function(){
     });
 
     it('should return a 404 and a "Admin poll not found." message', function(done){
-      this.request('/poll/admin/options', function(error, response){
+      this.request('/poll/options/admin', function(error, response){
         assert.equal(response.statusCode, 404);
         assert(response.body.includes('Admin Poll not found.'),
                 `${response.body} does not include ${'title'}`)
