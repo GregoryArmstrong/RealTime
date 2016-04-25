@@ -22,11 +22,11 @@ app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'jade');
 
 app.get('/', function (request, response) {
-  response.sendFile(__dirname + '/public/index.html');
+  response.sendFile(__dirname + '/views/index.html');
 });
 
 app.get('/new_poll', function (request, response) {
-  response.sendFile(__dirname + '/public/new_poll.html');
+  response.sendFile(__dirname + '/views/new_poll.html');
 });
 
 app.get('/poll/:id', function (request, response) {
@@ -40,7 +40,7 @@ app.get('/poll/:id', function (request, response) {
   }
 });
 
-app.get('/poll/admin/:id', function (request, response) {
+app.get('/poll/:id/admin', function (request, response) {
   var poll = app.locals.polls[request.params.id];
 
   if (!poll) {

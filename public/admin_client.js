@@ -49,3 +49,12 @@ socket.on('voteCount', function (votes) {
   threeTally.innerText = votesArray[2] + ": " + votes[votesArray[2]];
   fourTally.innerText  = votesArray[3] + ": " + votes[votesArray[3]];
 });
+
+var closePollButton = document.getElementById('close-poll');
+  closePollButton.addEventListener('click', function () {
+    var pollName = document.querySelector('h2').innerText;
+
+    var pollInfo = { pollName: pollName }
+
+    socket.send('pollClose', pollInfo);
+});
